@@ -6,7 +6,7 @@
 
 **下一步：** 
 - 連續三天跑 `checkin`，然後跑一次 `review`，看看它的小結準不準。
-- 想辦法改成移動裝置也能互動的方式。
+- 開始 Phase 1 第一格：用 FastAPI 把 brain 包成 API。
 
 ---
 
@@ -27,45 +27,59 @@
 - [x] 填好 `me.md`，幫它取名字
 - [x] 跟它聊第一次天、打第一次卡
 
-## 🌿 Phase 1：它會自己出現（主動性）
-- [ ] 用 macOS 的 launchd 或 cron，每天早上 8 點自動跑 `hello`
-- [ ] 用 macOS 通知顯示（`osascript -e 'display notification ...'`）
-- [ ] 晚上 10 點自動提醒打卡
-- 🎓 學到：排程、背景程序
+## 📱 Phase 1：口袋裡的 Rorty（手機也能互動）
+> 架構：Mac 寫程式 → push 到 GitHub → Windows 主機 pull 下來 24 小時跑 FastAPI → 手機透過 Tailscale 連回去（出門用行動網路也可以）
 
-## 🔊 Phase 2：它會說話
+- [ ] 用 FastAPI 把 brain 包成 API（`/hello`、`/chat`、`/checkin`）
+- [ ] Ionic + Angular 做聊天頁，先在 Mac 瀏覽器接本機 API 測試
+- [ ] Ionic + Angular 做打卡表單
+- [ ] Windows 主機：clone 專案、裝套件、放 `.env`（API key 只放後端，絕不放進 app）
+- [ ] Windows 主機：用工作排程器或 NSSM 讓 FastAPI 開機自動啟動；關閉睡眠和自動重新開機
+- [ ] Windows、手機都裝 Tailscale，手機用行動網路測試連線
+- [ ] 做成 PWA，從手機「加到主畫面」
+- [ ] 寫一個一鍵更新腳本（`git pull` + 重啟服務）
+- [ ] 排程備份 Windows 上的 `data/companion.db`（真正的記憶在這台，Mac 上的只是測試資料）
+- 🎓 學到：Python 後端、前後端串接、Ionic、遠端連線、Windows 服務
+
+## 🌿 Phase 2：它會自己出現（主動性）
+- [ ] 背景排程用 APScheduler 跑在 FastAPI 裡，每天早上 8 點自動 `hello`
+- [ ] 用 Capacitor 打包成原生 app，加上推播通知
+- [ ] 晚上 10 點推播提醒打卡
+- 🎓 學到：排程、背景程序、推播
+
+## 🔊 Phase 3：它會說話
 - [ ] 接一個 TTS API（OpenAI／ElevenLabs／Azure），把 `hello` 念出來
 - [ ] 藍牙耳機自動播放（系統處理，不用寫）
 - 🎓 學到：語音 API、音檔處理
 
-## 🎮 Phase 3：它會注意你（第一個感測器）
+## 🎮 Phase 4：它會注意你（第一個感測器）
 - [ ] 用 `psutil` 偵測遊戲程序，記錄遊玩時間
 - [ ] 超過門檻 → 依「暗示 → 明說 → 幽默」層次提醒
 - 🎓 學到：系統監測、事件觸發
 
-## 🖥️ Phase 4：它有臉了（Angular 登場）
-- [ ] 用 FastAPI 把 brain 包成 API（`/chat`、`/checkin`、`/review`）
-- [ ] Angular + PrimeNG 做聊天介面、打卡表單、打卡趨勢圖
-- [ ] 背景排程改用 APScheduler 跑在 FastAPI 裡
-- 🎓 學到：Python 後端、前後端串接
+## 📈 Phase 5：看見自己的變化
+- [ ] `/review` API + app 裡的回顧頁
+- [ ] 打卡趨勢圖
+- 🎓 學到：資料視覺化
 
-## 🧠 Phase 5：記憶升級
+## 🧠 Phase 6：記憶升級
 - [ ] 把 `memory.py` 換成 Mem0（介面不變，其他檔案不用動）
 - [ ] 評估 Zep／Graphiti 做「隨時間變化」的追蹤
 - 🎓 學到：向量資料庫、長期記憶架構
 
-## 🏃 Phase 6：它會幫你排課表
+## 🏃 Phase 7：它會幫你排課表
 - [ ] 每個面向定義 1～2 個可追蹤指標
 - [ ] Garmin 式週課表：每週自動生成略有變化的任務，依完成率調難度
 - [ ] Google Calendar 自動預約月度／季度回顧
 
-## 🔍 Phase 7：它會幫你找好玩的
+## 🔍 Phase 8：它會幫你找好玩的
 - [ ] 定時抓 Accupass／KKTIX 活動
 - [ ] 依你的興趣評分，寧缺勿濫，一週最多推一個
 
-## 📱 Phase 8：形影不離
-- [ ] 手機端（Capacitor 或 Tauri 2）+ 推播
-- [ ] 部署後端到雲端，讓它 24 小時醒著
+## ☁️ Phase 9：搬到雲端（有需要再做）
+- [ ] 如果不想讓 Windows 主機一直開著，把後端部署到雲端（Fly.io／Railway／Render）
+- [ ] SQLite 放在永久儲存空間，並加上 token 驗證
+- 🎓 學到：雲端部署、API 驗證
 
 ---
 
@@ -74,11 +88,16 @@
 | 決定 | 原因 |
 |---|---|
 | 後端用 Python | AI 生態（記憶、語音、agent 框架）最完整，也為 AI 應用開發轉型鋪路 |
-| 前端之後用 Angular | 熟悉，UI 不是這個專案的難點 |
+| 前端用 Ionic + Angular | 熟悉 Angular；Ionic 內建手機 UI 元件，之後用 Capacitor 打包成原生 app |
 | 先用 SQLite | 零設定、一個檔案，之後可以換 |
 | 先做終端機版 | 最快驗證「跟它相處」的感覺，不被 UI 拖住 |
+| 手機版提前到 Phase 1 | 要養成跟它互動的習慣，每次都得開終端機阻力太大 |
+| Windows 主機當伺服器、Mac 開發 | 不用讓 Mac 一直開著，也還不用付雲端費用 |
+| 用 Tailscale 連線 | 出門也連得到，API 不公開在網路上，暫時不用做登入驗證 |
+| 先做 PWA，再用 Capacitor 打包 | PWA 不用碰 Xcode 或上架，最快拿到手機上用 |
 | 它不編造自己的生活 | 分享真的做過的事，關係才不會建立在虛構上 |
 | 它的目標是把我推向真實世界 | 好的 mentor，是讓你越來越不需要它 |
 
 ## 開發日誌
 - 2026-09-27：種下種子 🌱
+- 2026-09-28：調整開發順序，手機版提前到 Phase 1 📱
