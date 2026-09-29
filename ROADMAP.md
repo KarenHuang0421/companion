@@ -35,7 +35,7 @@
 - [ ] Ionic + Angular 做打卡表單
 - [ ] Windows 主機：clone 專案、裝套件、放 `.env`（API key 只放後端，絕不放進 app）
 - [ ] Windows 主機：用工作排程器或 NSSM 讓 FastAPI 開機自動啟動；關閉睡眠和自動重新開機
-- [ ] Windows、手機都裝 Tailscale，手機用行動網路測試連線
+- [x] Windows、手機都裝 Tailscale，手機用行動網路測試連線
 - [ ] 做成 PWA，從手機「加到主畫面」
 - [ ] 寫一個一鍵更新腳本（`git pull` + 重啟服務）
 - [ ] 排程備份 Windows 上的 `data/companion.db`（真正的記憶在這台，Mac 上的只是測試資料）

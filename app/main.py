@@ -64,6 +64,9 @@ def cmd_review(brain: Brain, mem: Memory, name: str) -> None:
         "4) 下週一個小挑戰（小到一定做得到）。不要灌水稱讚，資料少就直說資料少。"
     ))
 
+def cmd_server():
+    import uvicorn
+    uvicorn.run("app.routers.brain:app", reload=True)
 
 def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):
@@ -72,9 +75,10 @@ def main() -> None:
     import os
     name = os.getenv("COMPANION_NAME", "夥伴")
 
+
     parser = argparse.ArgumentParser(description="你的 AI mentor／夥伴（種子版）")
     parser.add_argument("command", nargs="?", default="chat",
-                        choices=["hello", "chat", "checkin", "review"])
+                        choices=["hello", "chat", "checkin", "review", "serve"])
     args = parser.parse_args()
 
     mem = Memory()
@@ -84,6 +88,7 @@ def main() -> None:
         "chat": lambda: cmd_chat(brain, name),
         "checkin": lambda: cmd_checkin(brain, mem, name),
         "review": lambda: cmd_review(brain, mem, name),
+        "serve": lambda: cmd_server()
     }[args.command]()
 
 
