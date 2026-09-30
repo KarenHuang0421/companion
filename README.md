@@ -1,7 +1,7 @@
 # 🌱 companion：我的 AI mentor／夥伴（種子版）
 
 一個會記得我、陪我打卡、幫我回顧的 AI 夥伴。現在是終端機版本，之後會長成
-「一起床就在、會主動找我、會用耳機跟我說話」的樣子。完整路線看 [ROADMAP.md](ROADMAP.md)。
+「一起床就在、會主動找我、會用耳機跟我說話」的樣子。完整路線看 [docs/roadmap.md](docs/roadmap.md)，優化發想放在 [docs/ideas/](docs/ideas/README.md)。
 
 ## 今天就能跑起來（約 15 分鐘）
 
