@@ -28,7 +28,14 @@ TOOLS = [
             },
             "required": ["area", "fact"],
         },
-    }
+    },
+    # 伺服器端工具：Anthropic 幫忙搜尋，不用我們自己執行
+    {
+        "type": "web_search_20260209",
+        "name": "web_search",
+        "max_uses": 3,  # 每次回覆最多搜 3 次，控制費用
+        "user_location": {"type": "approximate", "country": "TW", "timezone": "Asia/Taipei"},
+    },
 ]
 
 
@@ -60,6 +67,12 @@ def build_system(mem: Memory) -> str:
 """
 
 
+def _final_text(content) -> str:
+    """只取最後一次搜尋結果之後的文字，跳過「我查一下」這類搜尋前的過場話。"""
+    last = max((i for i, b in enumerate(content) if b.type == "web_search_tool_result"), default=-1)
+    return "".join(b.text for b in content[last + 1:] if b.type == "text").strip()
+
+
 class Brain:
     def __init__(self, mem: Memory, client=None):
         self.mem = mem
@@ -77,8 +90,12 @@ class Brain:
                 model=self.model, max_tokens=1024, system=system,
                 tools=TOOLS, messages=messages,
             )
+            if resp.stop_reason == "pause_turn":
+                # 伺服器端搜尋還沒跑完：原封不動送回去，它會自己接著做
+                messages.append({"role": "assistant", "content": resp.content})
+                continue
             if resp.stop_reason != "tool_use":
-                return "".join(b.text for b in resp.content if b.type == "text").strip()
+                return _final_text(resp.content)
             messages.append({"role": "assistant", "content": resp.content})
             results = []
             for block in resp.content:

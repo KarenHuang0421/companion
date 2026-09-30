@@ -28,7 +28,35 @@ class FakeClient:
         return NS(stop_reason="end_turn", content=[NS(type="text", text="記住了，一起練！")])
 
 
+class FakeSearchClient:
+    """第一次搜到一半 pause_turn，第二次搜完才回答。"""
+
+    def __init__(self):
+        self.calls = []
+        self.messages = self
+
+    def create(self, **kwargs):
+        self.calls.append(kwargs)
+        if len(self.calls) == 1:
+            return NS(stop_reason="pause_turn", content=[
+                NS(type="text", text="我查一下。"),
+                NS(type="server_tool_use", id="s1", name="web_search", input={"query": "台北 今日新聞"}),
+            ])
+        return NS(stop_reason="end_turn", content=[
+            NS(type="web_search_tool_result", tool_use_id="s1", content=[]),
+            NS(type="text", text="早！今天捷運有新路線通車。"),
+        ])
+
+
 class SeedTest(unittest.TestCase):
+    def test_search_resumes_pause_turn_and_skips_preamble(self):
+        client = FakeSearchClient()
+        text = Brain(self.mem, client=client).speak_first("打招呼")
+        self.assertEqual(text, "早！今天捷運有新路線通車。")
+        resumed = client.calls[1]["messages"]
+        self.assertEqual(resumed[-1]["role"], "assistant")  # 原封不動送回，沒有多塞 user 訊息
+
+
     def setUp(self):
         self.mem = Memory(Path(tempfile.mkdtemp()) / "t.db")
 
