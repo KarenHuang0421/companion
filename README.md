@@ -1,7 +1,8 @@
 # 🌱 companion：我的 AI mentor／夥伴（種子版）
 
-一個會記得我、陪我打卡、幫我回顧的 AI 夥伴。現在是終端機版本，之後會長成
-「一起床就在、會主動找我、會用耳機跟我說話」的樣子。完整路線看 [docs/roadmap.md](docs/roadmap.md)，優化發想放在 [docs/ideas/](docs/ideas/README.md)。
+companion 是一個以mentor、助理，甚至夥伴為定位的個人 AI 系統。它會記錄使用者的目標與習慣，定期協助打卡和回顧，並在需要的時候主動提醒、給出建議。
+
+目前為終端機版本，後續規劃包含行動裝置介面、主動通知與語音互動。完整規劃請見 [docs/roadmap.md](docs/roadmap.md)，優化構想請見 [docs/ideas/](docs/ideas/README.md)。
 
 ## 今天就能跑起來（約 15 分鐘）
 
