@@ -37,16 +37,18 @@
 
 ### 管道的升級路線
 
-1. **桌面通知**：最快，今天就能做。
-2. **Telegram bot**：手機收得到推播，而且**我可以直接回覆**，主動開口就自然接成一段對話，比單向通知更像朋友。
-3. **耳機語音**：用 `edge-tts` 的台灣中文聲音（例如 `zh-TW-HsiaoChenNeural`）產生音檔，從預設音訊輸出播放。藍牙耳機連著，就是「它在耳邊跟我說話」。
+1. **桌面通知**：開發期最快，今天就能做（FastAPI 跑在 Windows 主機上，本機 `notify` 跳通知）。
+2. **自己的 app 推播**：後端呼叫推播服務（FCM），把 `nudge` 的內容送到 Capacitor app。Phase 1 的 Ionic + Angular 聊天頁，之後直接拿來當推播的接收介面，點開通知就能回話
+3. **App 內語音播放**：推播送出前，後端先用 `edge-tts`（台灣中文聲音，例如 `zh-TW-HsiaoChenNeural`）把要說的話轉成音檔，網址放進推播 payload；app 收到推播就自動下載播放，不用先點開 app。藍牙耳機連著，一樣是「它在耳邊跟我說話」，只是聲音是從手機 app 播出來，不是從 Windows 主機。
 
 ### 預計的改動
 
 ```
 app/main.py      ← 加 nudge 指令：組情境 → 模型判斷 → 套硬規則 → 決定要不要說
 app/memory.py    ← 加 nudges 表 + add_nudge() / recent_nudges()
-app/notify.py    ← 新增：送出管道（先做桌面通知，之後加 Telegram、語音）
+app/notify.py    ← 新增：送出管道（先做桌面通知；Phase 1 app 做出來後，改成呼叫 FCM 推播 + 帶 edge-tts 音檔網址）
+app/tts.py       ← 新增（Phase 3 提前一部分）：把 nudge 要說的話轉成語音檔，給推播 payload 用
+app（Angular + Capacitor）← 接收推播、自動播放語音；沒有獨立的 app 之前，這一步做不了，只能先停在桌面通知
 ```
 
 ### 下一步

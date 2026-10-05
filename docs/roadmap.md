@@ -7,6 +7,7 @@
 **下一步：** 
 - 連續三天跑 `checkin`，然後跑一次 `review`，看看它的小結準不準。
 - 開始 Phase 1 第一格：用 FastAPI 把 brain 包成 API。
+- 用angular做一個簡易版的app
 
 ---
 
@@ -30,7 +31,7 @@
 ## 📱 Phase 1：口袋裡的 Rorty（手機也能互動）
 > 架構：Mac 寫程式 → push 到 GitHub → Windows 主機 pull 下來 24 小時跑 FastAPI → 手機透過 Tailscale 連回去（出門用行動網路也可以）
 
-- [ ] 用 FastAPI 把 brain 包成 API（`/hello`、`/chat`、`/checkin`）
+- [x] 用 FastAPI 把 brain 包成 API（`/hello`、`/chat`、`/checkin`）
 - [ ] Ionic + Angular 做聊天頁，先在 Mac 瀏覽器接本機 API 測試
 - [ ] Ionic + Angular 做打卡表單
 - [ ] Windows 主機：clone 專案、裝套件、放 `.env`（API key 只放後端，絕不放進 app）
@@ -100,4 +101,6 @@
 
 ## 開發日誌
 - 2026-09-27：種下種子 🌱
-- 2026-09-28：調整開發順序，手機版提前到 Phase 1 📱
+- 2026-09-28：調整開發順序，手機版提前到 Phase 1 
+- 2026-10-01: 新增 mobile 專案；主動開口的推播改成自家 app + FCM 🔌
+- 2026-10-06：FastAPI 包好 `/chat`、`/check_in`，後端移到 `server/`
