@@ -1,0 +1,54 @@
+<div class="checkin">
+  <header class="checkin-header">
+    <button type="button" class="back-btn" (click)="goBack()" aria-label="返回對話頁">
+      &larr;
+    </button>
+  </header>
+
+  <form class="form" (ngSubmit)="submit()">
+    <section class="field">
+      <h2 class="field-label">今天精力幾分？</h2>
+      <div class="energy-row">
+        @for (level of energyLevels; track level) {
+          <button
+            type="button"
+            class="energy-btn"
+            [class.energy-btn--active]="energy === level"
+            (click)="energy = level"
+          >
+            {{ level }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="field">
+      <h2 class="field-label">今天有碰到哪些面向？</h2>
+      <div class="area-chips">
+        @for (area of areas; track area) {
+          <button
+            type="button"
+            class="chip"
+            [class.chip--active]="picked.has(area)"
+            (click)="toggleArea(area)"
+          >
+            {{ area }}
+          </button>
+        }
+      </div>
+    </section>
+
+    <section class="field">
+      <h2 class="field-label">用一句話說說今天</h2>
+      <textarea
+        class="note-input"
+        rows="3"
+        placeholder="今天過得..."
+        [(ngModel)]="note"
+        name="note"
+      ></textarea>
+    </section>
+
+    <button type="submit" class="submit-btn">完成打卡</button>
+  </form>
+</div>

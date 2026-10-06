@@ -1,0 +1,43 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  min-height: 100vh;
+  padding: 2rem 1.25rem calc(2rem + var(--safe-bottom));
+}
+
+.hello-text {
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 1rem;
+  color: var(--color-text);
+}
+
+.input-trigger {
+  view-transition-name: composer;
+  width: 100%;
+  text-align: left;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+.input-trigger:active {
+  background: var(--color-surface-muted);
+}
+
+.checkin-link {
+  align-self: flex-start;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--color-accent);
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}

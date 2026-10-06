@@ -1,0 +1,31 @@
+<div class="chat">
+  <header class="chat-header">
+    <button type="button" class="checkin-btn" (click)="openCheckin()">
+      checkin
+    </button>
+  </header>
+
+  <div class="messages">
+    @if (messages.length === 0) {
+      <p class="empty-state">還沒有對話，說點什麼開始吧。</p>
+    } @else {
+      @for (message of messages; track $index) {
+        <div class="message" [class.message--me]="message.from === 'me'">
+          {{ message.text }}
+        </div>
+      }
+    }
+  </div>
+
+  <form class="composer" (ngSubmit)="send()">
+    <input
+      class="composer-input"
+      type="text"
+      placeholder="想說點什麼..."
+      [(ngModel)]="draft"
+      name="draft"
+      autocomplete="off"
+    />
+    <button type="submit" class="send-btn" [disabled]="!draft.trim()">送出</button>
+  </form>
+</div>
