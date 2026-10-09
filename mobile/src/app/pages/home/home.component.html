@@ -1,5 +1,12 @@
 <div class="home">
-  <p class="hello-text">{{ helloMessage }}</p>
+  <div class="col-box">
+    <p class="hello-text">{{ helloMessage }}</p>
+    <div class="small-talk" [class.is-visible]="!!smallTalk()">
+      <div class="small-talk-inner">
+        <p class="small-talk-text">{{ smallTalk() }}</p>
+      </div>
+    </div>
+  </div>
 
   <button type="button" class="input-trigger" (click)="openChat()">
     想說點什麼...

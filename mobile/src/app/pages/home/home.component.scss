@@ -7,13 +7,61 @@
   padding: 2rem 1.25rem calc(2rem + var(--safe-bottom));
 }
 
+.col-box {
+  display: flex;
+  flex-direction: column;
+}
+
 .hello-text {
   font-size: 1.75rem;
   font-weight: 600;
   line-height: 1.4;
-  margin: 0 0 1rem;
+  margin: 0 0 0.5rem;
   color: var(--color-text);
 }
+
+// 用 grid-template-rows 0fr → 1fr 讓高度可以 transition，
+// 避免 smallTalk 回來時撐開高度讓 hello-text 瞬間跳上去
+.small-talk {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.small-talk-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.small-talk-text {
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 1rem;
+  color: var(--color-text-muted);
+  opacity: 0;
+  transform: translateY(0.375rem);
+  transition:
+    opacity 0.6s ease 0.2s,
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+
+.small-talk.is-visible {
+  grid-template-rows: 1fr;
+
+  .small-talk-text {
+    opacity: 0.3;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .small-talk,
+  .small-talk-text {
+    transition: none;
+  }
+}
+
 
 .input-trigger {
   view-transition-name: composer;

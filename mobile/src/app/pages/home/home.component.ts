@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { ChatService } from '../../services';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +8,19 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   private readonly router = inject(Router);
+  private readonly chat = inject(ChatService);
 
-  // TODO(API): 換成 GET /hello 實際回傳的文字
-  readonly helloMessage = '嗨，今天過得怎麼樣？';
+  public helloMessage = '嗨，今天過得怎麼樣？';
+  public smallTalk = signal('');
+
+  ngOnInit(): void {
+      this.chat.greeting().subscribe((response) =>
+        this.smallTalk.set(response)
+      )
+  };
+
 
   openChat(): void {
     this.router.navigateByUrl('/chat');

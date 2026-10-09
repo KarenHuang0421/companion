@@ -3,6 +3,10 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
+    loadComponent: () => import('./pages/onboard/onboard.component').then((m) => m.OnboardComponent),
+  },
+  {
+    path: 'landing',
     loadComponent: () => import('./pages/landing/landing.component').then((m) => m.LandingComponent),
   },
   {

@@ -1,2 +1,3 @@
 import { ChatService } from "./chat.service";
-export { ChatService };
+import { ServerConfigService } from "./server-config.service";
+export { ChatService, ServerConfigService };
