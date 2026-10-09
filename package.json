@@ -1,0 +1,21 @@
+{
+  "name": "companion",
+  "version": "1.0.0",
+  "description": "companion 是一個以mentor、助理，甚至夥伴為定位的個人 AI 系統。它會記錄使用者的目標與習慣，定期協助打卡和回顧，並在需要的時候主動提醒、給出建議。",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "server": "cd server && .venv/bin/python -m app.main serve",
+    "server:install": "cd server && .venv/bin/pip install -r requirements.txt",
+    "mobile": "npm --prefix mobile start",
+    "dev": "concurrently -k -n server,mobile -c blue,green \"npm:server\" \"npm:mobile\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
