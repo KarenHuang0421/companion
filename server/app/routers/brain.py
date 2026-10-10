@@ -15,6 +15,7 @@ app.add_middleware(
     "http://127.0.0.1:4200",
     "capacitor://localhost",     # 之後包成 iOS app
     "http://localhost",          # Android (Capacitor/Ionic)
+    "https://localhost",         # Android（Capacitor 6+ 預設 androidScheme 為 https）
   ],
   allow_methods=["*"],
   allow_headers=["*"],
