@@ -66,7 +66,12 @@ def cmd_review(brain: Brain, mem: Memory, name: str) -> None:
 
 def cmd_server():
     import uvicorn
-    uvicorn.run("app.routers.brain:app", reload=True, host="127.0.0.1", port=8000)
+    import os
+
+    host = os.getenv("API_HOST", "127.0.0.1")
+    port = int(os.getenv("API_PORT", "8000"))
+
+    uvicorn.run("app.routers.brain:app", reload=True, host=host, port=port)
 
 def main() -> None:
     if hasattr(sys.stdout, "reconfigure"):

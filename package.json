@@ -8,6 +8,7 @@
   },
   "scripts": {
     "server": "cd server && .venv/bin/python -m app.main serve",
+    "server:window": "cd server && python -m app.main serve",
     "server:install": "cd server && .venv/bin/pip install -r requirements.txt",
     "mobile": "npm --prefix mobile start",
     "dev": "concurrently -k -n server,mobile -c blue,green \"npm:server\" \"npm:mobile\""
