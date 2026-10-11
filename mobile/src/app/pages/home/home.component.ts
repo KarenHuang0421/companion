@@ -29,4 +29,8 @@ export class HomeComponent implements OnInit {
   openCheckin(): void {
     this.router.navigateByUrl('/checkin');
   }
+
+  openOnboard(): void {
+    this.router.navigateByUrl('/');
+  }
 }

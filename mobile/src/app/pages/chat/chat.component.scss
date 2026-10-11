@@ -6,12 +6,20 @@
 
 .chat-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: calc(0.75rem + var(--safe-top)) 1rem 0.75rem;
   background: var(--color-surface-muted);
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
+}
+
+.settings-btn {
+  border: none;
+  background: none;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  padding: 0.25rem 0.5rem;
 }
 
 .checkin-btn {

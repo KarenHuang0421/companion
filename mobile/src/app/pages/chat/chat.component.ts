@@ -24,6 +24,10 @@ export class ChatComponent {
     this.router.navigateByUrl('/checkin');
   }
 
+  openOnboard(): void {
+    this.router.navigateByUrl('/');
+  }
+
   // TODO(API): 把 draft 送到 GET /chat，並把回覆塞進 messages
   send(): void {
     const text = this.draft.trim();

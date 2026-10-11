@@ -1,24 +1,96 @@
-<form class="onboard" (ngSubmit)="submit()">
-  <label class="title" for="tailnet-code">輸入連線代碼</label>
-  <p class="hint">請輸入六位英數；留空則使用本機 IP。</p>
+<div class="onboard">
+  <div class="panels" [attr.data-panel]="panel">
+    <!-- 區塊 A：輸入連線代碼 -->
+    <form
+      class="panel panel--code"
+      [class.active]="panel === 'code'"
+      [attr.inert]="panel !== 'code' ? '' : null"
+      (ngSubmit)="submit()"
+    >
+      <label class="title" for="tailnet-code">輸入連線代碼</label>
+      <p class="hint">請輸入六位英數；或點下方「略過」使用本機 IP。</p>
 
-  <input
-    id="tailnet-code"
-    name="code"
-    class="code-input"
-    [class.invalid]="invalid"
-    [(ngModel)]="code"
-    (ngModelChange)="invalid = false"
-    maxlength="6"
-    autocomplete="off"
-    autocapitalize="off"
-    spellcheck="false"
-    placeholder="xxxxxx"
-  />
-  @if (invalid) {
-    <p class="error-text">格式不正確，需為六位英文或數字</p>
-  }
+      <input
+        #codeInput
+        id="tailnet-code"
+        name="code"
+        class="code-input"
+        [class.invalid]="invalid"
+        [(ngModel)]="code"
+        (ngModelChange)="invalid = false"
+        maxlength="6"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        placeholder="xxxxxx"
+      />
+      @if (invalid) {
+        <p class="error-text">格式不正確，需為六位英文或數字</p>
+      }
 
-  <button type="submit" class="primary-btn">下一步</button>
-  <button type="button" class="skip-link" (click)="skip()">略過，使用 IP</button>
-</form>
+      <button type="submit" class="primary-btn" [disabled]="!code.trim()">下一步</button>
+
+      <div class="footer">
+        <button
+          type="button"
+          class="host-chip"
+          (click)="showHostPanel()"
+          [attr.aria-label]="'切換連線主機，目前為 ' + currentHost.label"
+        >
+          <span class="host-chip-dot" aria-hidden="true"></span>
+          <span class="host-chip-label">{{ currentHost.label }}</span>
+          <span class="host-chip-name">{{ currentHost.name }}</span>
+          <svg class="host-chip-icon" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button type="button" class="skip-link" (click)="skip()">略過，使用 IP</button>
+      </div>
+    </form>
+
+    <!-- 區塊 B：選擇連線主機 -->
+    <section
+      #hostPanel
+      class="panel panel--host"
+      [class.active]="panel === 'host'"
+      [attr.inert]="panel !== 'host' ? '' : null"
+      aria-labelledby="host-title"
+    >
+      <button type="button" class="back-btn" (click)="showCodePanel()">
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M10 3.5 5.5 8 10 12.5" fill="none" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        返回
+      </button>
+
+      <h2 id="host-title" class="title">選擇連線主機</h2>
+      <p class="hint">選擇要透過 Tailscale 連線的主機。</p>
+
+      <div class="host-options" role="radiogroup" aria-labelledby="host-title">
+        @for (h of hosts; track h.name) {
+          <button
+            type="button"
+            role="radio"
+            class="host-option"
+            [class.selected]="host === h.name"
+            [attr.aria-checked]="host === h.name"
+            (click)="pickHost(h.name)"
+          >
+            <span class="host-text">
+              <span class="host-label">{{ h.label }}</span>
+              <span class="host-name">{{ h.name }}</span>
+            </span>
+            <span class="host-check" aria-hidden="true">
+              <svg viewBox="0 0 16 16">
+                <path d="M3.5 8.5 6.5 11.5 12.5 5" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </button>
+        }
+      </div>
+    </section>
+  </div>
+</div>

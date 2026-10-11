@@ -36,8 +36,8 @@
 - [ ] Angular 做打卡頁，串接 `/checkin` API（畫面已建，API 尚未串接）
 - [x] 建立 Android 打包環境（Java 21 + Android 命令列 SDK 工具，不裝 Android Studio）
 - [x] 用 Capacitor 打包成 Android app，裝到手機上測試
-- [ ] 修正打包後的 API 呼叫錯誤
-- [ ] Windows 主機：clone 專案、裝套件、放 `.env`（API key 只放後端，絕不放進 app）
+- [x] 修正打包後的 API 呼叫錯誤
+- [x] Windows 主機：clone 專案、裝套件、放 `.env`（API key 只放後端，絕不放進 app）
 - [ ] Windows 主機：用工作排程器或 NSSM 讓 FastAPI 開機自動啟動；關閉睡眠和自動重新開機
 - [x] Windows、手機都裝 Tailscale，手機用行動網路測試連線
 - [ ] ~~做成 PWA，從手機「加到主畫面」~~（改成直接用 Capacitor 打包，跳過）

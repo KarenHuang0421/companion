@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { ServerConfigService } from '../../services';
 
 @Component({
   selector: 'app-error',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class ErrorComponent {
   private readonly router = inject(Router);
+
+  readonly error = inject(ServerConfigService).lastError;
 
   retry(): void {
     this.router.navigateByUrl('/');

@@ -79,8 +79,23 @@
   background: var(--color-surface-muted);
 }
 
+.links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-link {
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
 .checkin-link {
-  align-self: flex-start;
   border: none;
   background: none;
   padding: 0;

@@ -1,13 +1,54 @@
+$ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+$panel-duration: 0.42s;
+
 .onboard {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
   min-height: 100vh;
   padding: calc(2rem + var(--safe-top)) 1.25rem calc(2rem + var(--safe-bottom));
+  overflow-x: hidden;
+}
+
+// 兩個區塊疊在同一格，高度取兩者較高者，切換時版面不會跳
+.panels {
+  display: grid;
+}
+
+.panel {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.28s ease,
+    transform $panel-duration $ease-out,
+    visibility 0s linear $panel-duration;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.32s ease 0.06s,
+      transform $panel-duration $ease-out,
+      visibility 0s;
+  }
+}
+
+// A 往左退、B 從右邊進來，像往下一層走
+.panel--code {
+  transform: translateX(-2.5rem) scale(0.98);
+}
+
+.panel--host {
+  transform: translateX(2.5rem) scale(0.98);
 }
 
 .title {
+  margin: 0;
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--color-text);
@@ -54,10 +95,24 @@
   color: var(--color-accent-contrast);
   font-size: 1rem;
   font-weight: 600;
+  transition: opacity 0.2s ease;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
 }
 
 .skip-link {
-  align-self: center;
+  flex-shrink: 0;
   border: none;
   background: none;
   padding: 0;
@@ -65,4 +120,184 @@
   font-size: 0.9rem;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
+}
+
+.host-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  padding: 0.45rem 0.6rem 0.45rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+
+  &:active {
+    background: var(--color-surface-muted);
+  }
+
+  &:hover .host-chip-icon {
+    transform: translateX(2px);
+  }
+}
+
+.host-chip-dot {
+  flex-shrink: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.host-chip-label {
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.host-chip-name {
+  min-width: 0;
+  max-width: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-muted);
+}
+
+.host-chip-icon {
+  flex-shrink: 0;
+  width: 0.9rem;
+  height: 0.9rem;
+  color: var(--color-text-muted);
+  transition: transform 0.2s ease;
+}
+
+.back-btn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: -0.35rem;
+  padding: 0.25rem 0.35rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: none;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.host-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.host-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.125rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.875rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    transform 0.15s ease;
+
+  &:active {
+    transform: scale(0.985);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  // 當前選取：accent 外框 + 光暈 + 淡底色 + 打勾
+  &.selected {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--color-surface));
+    box-shadow:
+      inset 0 0 0 1px var(--color-accent),
+      0 0 0 4px color-mix(in srgb, var(--color-accent) 16%, transparent);
+
+    .host-check {
+      border-color: var(--color-accent);
+      background: var(--color-accent);
+      color: var(--color-accent-contrast);
+
+      svg {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+.host-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.host-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.host-name {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.host-check {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    opacity: 0;
+    transform: scale(0.5);
+    transition:
+      opacity 0.2s ease,
+      transform 0.25s $ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel.active {
+    transform: none;
+    transition:
+      opacity 0.15s ease,
+      visibility 0s;
+  }
 }

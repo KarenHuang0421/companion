@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { ServerConfigService } from '../../services';
 
 @Component({
   selector: 'app-landing',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LandingComponent implements OnInit {
   private readonly router = inject(Router);
+  private readonly serverConfig = inject(ServerConfigService);
 
   ngOnInit(): void {
     this.checkServerStatus().then((ok) => {
@@ -16,11 +18,12 @@ export class LandingComponent implements OnInit {
     });
   }
 
-  /**
-   * TODO(API): 換成真正打 GET /hello 的邏輯。
-   * 打通（含 Tailscale 連線正常）resolve(true)；逾時或失敗 resolve(false)。
-   */
   private checkServerStatus(): Promise<boolean> {
-    return new Promise((resolve) => setTimeout(() => resolve(true), 900));
+    return new Promise((resolve) => {
+      this.serverConfig.getServerStatus().subscribe({
+        next: () => resolve(true),
+        error: () => resolve(false),
+      });
+    });
   }
 }

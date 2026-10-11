@@ -1,8 +1,13 @@
 <div class="error">
+  @if (error(); as err) {
+    <p class="error-code">
+      錯誤代碼 {{ err.status }}{{ err.statusText ? ' · ' + err.statusText : '' }}
+    </p>
+  }
   <p class="headline">你的系統尚未啟動</p>
 
   <ul class="checklist">
-    <li>Windows 主機上的 FastAPI 伺服器是否已啟動</li>
+    <li>主機上的 FastAPI 伺服器是否已啟動</li>
     <li>手機和主機是否都已連上 Tailscale</li>
   </ul>
 
